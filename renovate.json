@@ -3,5 +3,6 @@
   "extends": [
     "github>ithaka/ithaka-renovate-presets//ithaka/base",
     "github>ithaka/ithaka-renovate-presets//ithaka/recommended"
-  ]
+  ],
+  "assigneesFromCodeOwners": true
 }
