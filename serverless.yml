@@ -25,7 +25,7 @@ provider:
     role: ${file(./secrets.yml):roleArn}
   lambdaHashingVersion: 20201221
   deploymentBucket:
-    name: ithaka-labs-backup
+    name: ithaka-jaip
   endpointType: REGIONAL
 
 functions:
