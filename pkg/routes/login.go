@@ -45,20 +45,23 @@ func AuthJSTORHandler(w http.ResponseWriter, r *http.Request) {
 	if newURL.Path != "/about" || newURL.Path == "about" {
 		newURL.Path = "/"
 	}
-    newCookie := http.Cookie{
-        Name:     "uuid",
-        Value:    uuid,
-        Path:     "/",
-        MaxAge:   3600 * 24,
-        Secure:   true,
-        SameSite: http.SameSiteNoneMode,
-		Domain: ".jstor.org",
-    }
+
+	if strings.HasSuffix(newURL.Host, "cirrostratus.org") {
+		newCookie := http.Cookie{
+			Name:     "uuid",
+			Value:    uuid,
+			Path:     "/",
+			MaxAge:   3600 * 24,
+			Secure:   true,
+			SameSite: http.SameSiteNoneMode,
+			Domain: ".jstor.org",
+		}
+		http.SetCookie(w, &newCookie)	
+	}
 
 	// Add the session UUID as a URL fragment
 	finalURL := fmt.Sprintf("%s#%s", newURL.String(), uuid)
 
-	http.SetCookie(w, &newCookie)
 
 	// Redirect to the redirect URL
 	w.Header().Set("Location", finalURL)
