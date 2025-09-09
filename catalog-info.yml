@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://json.schemastore.org/catalog-info.json
+  
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: jaip-auth-lambda
+  description: Auto-generated catalog-info.yaml
+  tags:
+    - go
+    - makefile
+spec:
+  type: unknown
+  owner: group:labs
+  lifecycle: unknown
