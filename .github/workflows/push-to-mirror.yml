@@ -12,11 +12,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Push to Mirror Repository
         env:
           MIRROR_REPO_URL: ${{ secrets.MIRROR_REPO_URL }}
         run: |
           git remote add mirror $MIRROR_REPO_URL
           git push mirror main --force
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
