@@ -12,12 +12,16 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+      
       - name: Push to Mirror Repository
         env:
           MIRROR_REPO: ${{ vars.MIRROR_REPO }}
-          ACCESS_TOKEN: ${{ vars.ACCESS_TOKEN }}
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         run: |
-          echo "Pushing to mirror repository: ${{ vars.MIRROR_REPO }}"
-          echo https://${{ vars.ACCESS_TOKEN }}@github.com/${{ vars.MIRROR_REPO }}
-          git remote add mirror https://${{ vars.ACCESS_TOKEN }}@github.com/${{ vars.MIRROR_REPO }}
-          git push mirror main --no-thin --force
+          echo "Pushing to mirror repository: $MIRROR_REPO"
+          git remote add mirror https://x-access-token:$ACCESS_TOKEN@github.com/$MIRROR_REPO
+          git push mirror main --force
