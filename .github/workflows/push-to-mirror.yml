@@ -28,25 +28,6 @@ jobs:
           MIRROR_REPO: ${{ vars.MIRROR_REPO }}
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         run: |
-          echo "Pushing to mirror repository: $MIRROR_REPO"
-          
-          # Verify we have the token
-          if [ -z "$ACCESS_TOKEN" ]; then
-            echo "ERROR: ACCESS_TOKEN is not set"
-            exit 1
-          fi
-          
-          # Test write permissions specifically
-          echo "Testing write permissions..."
-          echo "User info:"
-          curl -H "Authorization: token $ACCESS_TOKEN" https://api.github.com/user | jq -r '.login'
-          
-          echo "Checking repository permissions..."
-          USER_LOGIN=$(curl -H "Authorization: token $ACCESS_TOKEN" https://api.github.com/user | jq -r .login)
-          curl -H "Authorization: token $ACCESS_TOKEN" \
-               -H "Accept: application/vnd.github.v3+json" \
-               https://api.github.com/repos/$MIRROR_REPO/collaborators/$USER_LOGIN/permission || echo "Permission check failed - might be fine-grained token"
-          
           # Use the standard x-access-token format for GitHub Actions
           git remote add mirror https://x-access-token:$ACCESS_TOKEN@github.com/$MIRROR_REPO
           
