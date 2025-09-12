@@ -18,6 +18,6 @@ jobs:
           ACCESS_TOKEN: ${{ vars.ACCESS_TOKEN }}
         run: |
           echo "Pushing to mirror repository: ${{ vars.MIRROR_REPO }}"
-          echo https://x-access-token:${{ vars.ACCESS_TOKEN }}@github.com/${{ vars.MIRROR_REPO }}
-          git remote add mirror https://x-access-token:${{ vars.ACCESS_TOKEN }}@github.com/${{ vars.MIRROR_REPO }}
+          echo https://${{ vars.ACCESS_TOKEN }}@github.com/${{ vars.MIRROR_REPO }}
+          git remote add mirror https://${{ vars.ACCESS_TOKEN }}@github.com/${{ vars.MIRROR_REPO }}
           git push mirror main --no-thin --force
