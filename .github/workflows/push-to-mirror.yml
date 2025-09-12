@@ -13,11 +13,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v5
         with:
-          token: ${{ secrets.ACCESS_TOKEN }}
+          gh_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Push to Mirror Repository
         env:
           MIRROR_REPO: ${{ secrets.MIRROR_REPO }}
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         run: |
-          git remote set-url origin https://x-access-token:$ACCESS_TOKEN@github.com/$MIRROR_REPO
-          git push origin main --no-thin --force
+          git remote add mirror https://x-access-token:$ACCESS_TOKEN@github.com/$MIRROR_REPO
+          git push mirror main --no-thin --force
