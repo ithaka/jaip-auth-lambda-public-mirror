@@ -9,9 +9,14 @@ on:
 jobs:
   push-to-mirror:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
       - name: Configure Git
         run: |
           git config --global user.name "github-actions[bot]"
@@ -23,5 +28,18 @@ jobs:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         run: |
           echo "Pushing to mirror repository: $MIRROR_REPO"
-          git remote add mirror https://x-access-token:$ACCESS_TOKEN@github.com/$MIRROR_REPO
+          
+          # Verify we have the token
+          if [ -z "$ACCESS_TOKEN" ]; then
+            echo "ERROR: ACCESS_TOKEN is not set"
+            exit 1
+          fi
+          
+          # Add remote with authentication
+          git remote add mirror https://$ACCESS_TOKEN@github.com/$MIRROR_REPO.git
+          
+          # Verify remote was added
+          git remote -v
+          
+          # Push to mirror
           git push mirror main --force
