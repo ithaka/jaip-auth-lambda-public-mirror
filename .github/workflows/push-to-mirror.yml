@@ -22,7 +22,8 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-      
+      # Because these variables will not be set on the public mirror repo, we don't need to worry about this action running in a loop.
+      # It will simply fail to find the variables and the action will fail in the public mirror repo.
       - name: Push to Mirror Repository
         env:
           MIRROR_REPO: ${{ vars.MIRROR_REPO }}
