@@ -19,4 +19,4 @@ jobs:
           MIRROR_REPO_URL: ${{ secrets.MIRROR_REPO_URL }}
         run: |
           git remote add mirror $MIRROR_REPO_URL
-          git push mirror main --force
+          git push mirror main --no-thin --force
