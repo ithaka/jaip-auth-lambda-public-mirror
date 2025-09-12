@@ -17,6 +17,7 @@ jobs:
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
+          token: ${{ secrets.ACCESS_TOKEN }}
       - name: Configure Git
         run: |
           git config --global user.name "github-actions[bot]"
@@ -46,8 +47,8 @@ jobs:
                -H "Accept: application/vnd.github.v3+json" \
                https://api.github.com/repos/$MIRROR_REPO/collaborators/$USER_LOGIN/permission || echo "Permission check failed - might be fine-grained token"
           
-          # Try using the token as username with empty password
-          git remote add mirror https://$ACCESS_TOKEN:@github.com/$MIRROR_REPO
+          # Use the standard x-access-token format for GitHub Actions
+          git remote add mirror https://x-access-token:$ACCESS_TOKEN@github.com/$MIRROR_REPO
           
           # Verify remote was added
           git remote -v
