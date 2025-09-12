@@ -15,7 +15,9 @@ jobs:
       - name: Push to Mirror Repository
         env:
           MIRROR_REPO: ${{ secrets.MIRROR_REPO }}
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          ACCESS_TOKEN: ${{ variables.ACCESS_TOKEN }}
         run: |
+          echo "Adding mirror remote"
+          echo https://x-access-token:$ACCESS_TOKEN@github.com/$MIRROR_REPO
           git remote add mirror https://x-access-token:$ACCESS_TOKEN@github.com/$MIRROR_REPO
           git push mirror main --no-thin --force
