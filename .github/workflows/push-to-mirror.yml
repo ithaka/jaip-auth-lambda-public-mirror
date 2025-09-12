@@ -35,14 +35,19 @@ jobs:
             exit 1
           fi
           
-          # Test token validity first
-          echo "Testing token permissions..."
+          # Test write permissions specifically
+          echo "Testing write permissions..."
+          echo "User info:"
+          curl -H "Authorization: token $ACCESS_TOKEN" https://api.github.com/user | jq -r '.login'
+          
+          echo "Checking repository permissions..."
+          USER_LOGIN=$(curl -H "Authorization: token $ACCESS_TOKEN" https://api.github.com/user | jq -r .login)
           curl -H "Authorization: token $ACCESS_TOKEN" \
                -H "Accept: application/vnd.github.v3+json" \
-               https://api.github.com/repos/$MIRROR_REPO
+               https://api.github.com/repos/$MIRROR_REPO/collaborators/$USER_LOGIN/permission || echo "Permission check failed - might be fine-grained token"
           
-          # Add remote with authentication using x-access-token format
-          git remote add mirror https://x-access-token:$ACCESS_TOKEN@github.com/$MIRROR_REPO
+          # Try using the token as username with empty password
+          git remote add mirror https://$ACCESS_TOKEN:@github.com/$MIRROR_REPO
           
           # Verify remote was added
           git remote -v
