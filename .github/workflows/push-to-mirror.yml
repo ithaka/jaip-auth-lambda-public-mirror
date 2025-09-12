@@ -1,0 +1,21 @@
+name: Push to Mirror
+on: 
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  push-to-mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Push to Mirror Repository
+        env:
+          MIRROR_REPO_URL: ${{ secrets.MIRROR_REPO_URL }}
+        run: |
+          git remote add mirror $MIRROR_REPO_URL
+          git push mirror main --force
