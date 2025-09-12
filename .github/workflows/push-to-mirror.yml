@@ -19,3 +19,5 @@ jobs:
         run: |
           git remote add mirror $MIRROR_REPO_URL
           git push mirror main --force
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
