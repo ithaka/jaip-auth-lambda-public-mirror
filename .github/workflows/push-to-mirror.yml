@@ -35,8 +35,14 @@ jobs:
             exit 1
           fi
           
-          # Add remote with authentication
-          git remote add mirror https://$ACCESS_TOKEN@github.com/$MIRROR_REPO.git
+          # Test token validity first
+          echo "Testing token permissions..."
+          curl -H "Authorization: token $ACCESS_TOKEN" \
+               -H "Accept: application/vnd.github.v3+json" \
+               https://api.github.com/repos/$MIRROR_REPO
+          
+          # Add remote with authentication using x-access-token format
+          git remote add mirror https://x-access-token:$ACCESS_TOKEN@github.com/$MIRROR_REPO
           
           # Verify remote was added
           git remote -v
