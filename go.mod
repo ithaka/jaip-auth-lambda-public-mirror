@@ -2,7 +2,7 @@ module main
 
 go 1.23.0
 
-toolchain go1.25.1
+toolchain go1.25.3
 
 require (
 	github.com/akrylysov/algnhsa v1.1.0
