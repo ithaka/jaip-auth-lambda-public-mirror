@@ -17,7 +17,7 @@ func init() {
 
 func AuthJSTORHandler(w http.ResponseWriter, r *http.Request) {
 	log.Printf("Starting Auth Handler: %s", r.Host)
-	
+
 	for _, value := range r.Cookies() {
 		log.Printf("Header %s: %s", value.Name, value.Value)
 	}
@@ -28,7 +28,7 @@ func AuthJSTORHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Printf("Failed to get cookie: %s", err)
 	} else {
-		log.Printf("Got Cookie"	)
+		log.Printf("Got Cookie")
 		log.Printf("Cookie: %s", uuidCookie.Value)
 		uuid = uuidCookie.Value
 	}
@@ -42,9 +42,6 @@ func AuthJSTORHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "failed to parse to query", http.StatusBadRequest)
 		return
 	}
-	if newURL.Path != "/about" || newURL.Path == "about" {
-		newURL.Path = "/"
-	}
 
 	if strings.HasSuffix(newURL.Host, "cirrostratus.org") {
 		newCookie := http.Cookie{
@@ -54,14 +51,13 @@ func AuthJSTORHandler(w http.ResponseWriter, r *http.Request) {
 			MaxAge:   3600 * 24,
 			Secure:   true,
 			SameSite: http.SameSiteNoneMode,
-			Domain: ".jstor.org",
+			Domain:   ".jstor.org",
 		}
-		http.SetCookie(w, &newCookie)	
+		http.SetCookie(w, &newCookie)
 	}
 
 	// Add the session UUID as a URL fragment
 	finalURL := fmt.Sprintf("%s#%s", newURL.String(), uuid)
-
 
 	// Redirect to the redirect URL
 	w.Header().Set("Location", finalURL)
