@@ -2,11 +2,11 @@ module main
 
 go 1.23.0
 
-toolchain go1.26.4
+toolchain go1.26.5
 
 require (
 	github.com/akrylysov/algnhsa v1.1.0
-	github.com/go-chi/chi/v5 v5.3.0
+	github.com/go-chi/chi/v5 v5.3.1
 	github.com/rs/zerolog v1.35.1
 	github.com/spf13/viper v1.21.0
 )
